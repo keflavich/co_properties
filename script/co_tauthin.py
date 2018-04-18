@@ -1,3 +1,9 @@
+"""
+This script was started sometime around 2007 as part of a grad school homework
+assignment, but I've expanded and reused it over time.  It still works,
+and it makes some neat plots, but it is not an example of good coding practices.
+This should all be rewritten with astropy units.
+"""
 from numpy import pi,exp,sqrt,log
 import numpy
 
@@ -169,7 +175,7 @@ cotomass13co10 = cotocol13co10 * massmu * mh2 / msun * beamarea10_cm2
 
 if __name__=="__main__":
     from pylab import *
-    print "Plotting up CO vs. Tex for debug purposes"
+    print("Plotting up CO vs. Tex for debug purposes")
     texarr = linspace(3,60,200)
     twelveCO10   = cotocol(texarr,coprops12CO10)
     twelveCO21   = cotocol(texarr,coprops12CO21)
@@ -229,6 +235,7 @@ if __name__=="__main__":
     legend(loc='best')
     xlabel('Excitation Temperature')
     ylabel('$n_{tot}/n_0$')
+    savefig('tex_vs_density.png', bbox_inches='tight')
 
     figure(3); clf();
     plot(texarr,n1_8     ,'--',label='8',linewidth=3)
@@ -242,6 +249,7 @@ if __name__=="__main__":
     legend(loc='best')
     xlabel('Excitation Temperature')
     ylabel('$\\Omega$')
+    savefig('tex_vs_Omega.png', bbox_inches='tight')
 
     figure(1); clf();
     plot1 = semilogy(texarr,twelveCO10,label='Exact partition function',linewidth=2.0)
@@ -252,6 +260,7 @@ if __name__=="__main__":
     ylabel('N(H$_2$) / K km s$^{-1}$')
     ax.set_ylim(8e18,3e19)
     savefig('/Users/adam/work/co/column_derivation/columnconversion_approximation.png',bbox_inches='tight')
+    savefig('columnconversion_approximation.png',bbox_inches='tight')
     #semilogy(texarr,twelveCO32,'--',label='12CO32')
     #semilogy(texarr,twelveCO32approx,':',label='12CO32 approx')
     #semilogy(texarr,twelveCO32approxold,'-',label='12CO32 approxold')
@@ -262,6 +271,7 @@ if __name__=="__main__":
     #semilogy(texarr,twelveCO10approxold,'--',label='12CO10 approxold')
     legend(loc='best')
     ax.set_ylim(8e18,3e19)
+    savefig('columnconversion_approximation_withothers.png', bbox_inches='tight')
 
     figure(2); clf();
     tbeam = linspace(0.01,50,100)
@@ -279,6 +289,7 @@ if __name__=="__main__":
     grid()
     gca().set_ylim(1,2)
     savefig('/Users/adam/work/co/column_derivation/ratio_exactapprox.png',bbox_inches='tight')
+    savefig('ratio_exactapprox.png',bbox_inches='tight')
 
     figure(5); clf();
     plot2 = semilogy(texarr,twelveCO32,'-',label='12CO32',linewidth=3.0)
@@ -292,6 +303,7 @@ if __name__=="__main__":
     scatter(50,2.5e19,label='Hatchell 2007')
     ax2.set_ylim(3e18,5e19)
     savefig('/Users/adam/work/co/column_derivation/co32conversion_hatchellcompare.png',bbox_inches='tight')
+    savefig('co32conversion_hatchellcompare.png',bbox_inches='tight')
 
     rc("font",size=24)
     figure(6); clf();
@@ -307,6 +319,7 @@ if __name__=="__main__":
     ax3.set_yticks([4e18,1e19,3e19])
     ax3.set_yticklabels(["$%i\\times10^{%i}$" % (x,y) for x,y in [(4,18),(1,19),(3,19)]])
     savefig('/Users/adam/work/co/column_derivation/12CO_columnconversion_vs_tex.png',bbox_inches='tight')
+    savefig('12CO_columnconversion_vs_tex.png',bbox_inches='tight')
 
     #semilogy(texarr,thirteenCO10/60.,label='$^{13}$CO 1-0',linewidth=2.0,linestyle='dashed',color='b')
     #semilogy(texarr,thirteenCO21/60.,label='$^{13}$CO 2-1',linewidth=2.0,linestyle='dashed',color='g')
@@ -322,6 +335,7 @@ if __name__=="__main__":
     ax3.set_yticklabels(["$"+("%i\\times" % x)*z+"10^{%i}$" % y for x,y,z in [(4,18,1),(8,18,1),(1,19,0),(2,19,1),(4,19,1)]])
     draw()
     savefig('/Users/adam/work/co/column_derivation/columnconversion_vs_tex.png',bbox_inches='tight')
+    savefig('columnconversion_vs_tex.png',bbox_inches='tight')
 
     semilogy(texarr,twelveCO10_nocmb,'b:',linewidth=2.0)
     semilogy(texarr,twelveCO21_nocmb,'g:',linewidth=2.0)
@@ -329,8 +343,10 @@ if __name__=="__main__":
     ax3.set_ylim(3e18,5e19)
     leg=legend(loc='best')
     savefig('/Users/adam/work/co/column_derivation/columnconversion_vs_tex_allapprox_legend.png',bbox_inches='tight')
+    savefig('columnconversion_vs_tex_allapprox_legend.png',bbox_inches='tight')
     leg.set_visible(False)
     savefig('/Users/adam/work/co/column_derivation/columnconversion_vs_tex_allapprox.png',bbox_inches='tight')
+    savefig('columnconversion_vs_tex_allapprox.png',bbox_inches='tight')
 
     temperatures = arange(12)
     njcmb = array([nj(array([2.73]),Ju,200) for Ju in temperatures])
@@ -355,6 +371,7 @@ if __name__=="__main__":
     xlabel('Upper rotational level of CO')
     ylabel('Fractional level population')
     savefig('/Users/adam/work/co/column_derivation/fractional_level_population.png',bbox_inches='tight')
+    savefig('fractional_level_population.png',bbox_inches='tight')
 
     n0ofT = array([ nj(T,0,200) for T in texarr ])
     n1ofT = array([ nj(T,1,200) for T in texarr ])
@@ -372,6 +389,7 @@ if __name__=="__main__":
     xticks(arange(0,60,5))
     grid()
     savefig('/Users/adam/work/co/column_derivation/fractional_level_population_vs_temp.png',bbox_inches='tight')
+    savefig('fractional_level_population_vs_temp.png',bbox_inches='tight')
 
     figure(9); clf();
     sp1=subplot(211)
@@ -398,6 +416,7 @@ if __name__=="__main__":
     grid()
     sp2.set_ylim(0,log10(1.2))
     savefig('/Users/adam/work/co/column_derivation/CMB_correction_factor.png',bbox_inches='tight')
+    savefig('CMB_correction_factor.png',bbox_inches='tight')
 
     draw()
 
