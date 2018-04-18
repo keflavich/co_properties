@@ -1,0 +1,299 @@
+%\documentclass{article}
+\documentclass[preprint]{aastex}
+%\newcommand{\d}{\ensuremath{\textrm{d}}}
+\newcommand{\ds}{\ensuremath{\textrm{d}s}}
+\newcommand{\dv}{\ensuremath{\textrm{d}v}}
+\newcommand{\dnu}{\ensuremath{\textrm{d}\nu}}
+\newcommand{\kms}{\textrm{km~s}\ensuremath{^{-1}}}	%  km s-1
+\usepackage{natbib}  % Requires natbib.sty, available from http://ads.harvard.edu/pubs/bibtex/astronat/
+\usepackage{amsmath}
+\citestyle{aa}  % (Author YYYY) references instead of (Author, YYYY)
+%\bibliographystyle{/Users/adam/papers/latexfiles/apj_w_etal}
+\begin{document}
+
+\title{Derivation of the total column of a dipole molecule assuming LTE}
+
+I derive the total columnn density of a dipole molecule assuming LTE and
+$\tau<<1$, which are standard assumptions for many molecules, particularly CO
+isotopologues (or is it isotopomers?  can never remember...) and $^{12}$CO in
+outflow line wings.  I then show a few examples for CO.
+
+This exercise has previously been performed for the CO 1-0 line in
+\citet{bourke1997,garden1991,cabrit1990}, and probably many others, but to the
+best of my knowledge has not been done for higher transitions.
+
+\section{Radiative Transfer in a Dipole Line}
+Equation of Radiative Transfer \citep[][eqn 1.9]{rohlfs}:
+\begin{equation}
+  \label{eqn:radtrans}
+  \frac{dI_\nu}{\ds} = -\kappa_\nu I_\nu + \epsilon_\nu
+\end{equation}
+
+Definition of optical depth \citep[][eqn 1.15]{rohlfs}:
+\begin{equation}
+  \label{eqn:optdepth}
+  d\tau_\nu = -\kappa_\nu \ds
+\end{equation}
+
+Spontaneous Emission \citep[][eqn 12.15]{rohlfs}:  $n_u$ is the volume density of molecules in the upper state.
+\begin{equation}
+  \epsilon_\nu = \frac{h \nu_{ul} A_{ul} n_u}{4 \pi} \varphi(\nu)
+\end{equation}
+
+Absorption:
+\begin{equation}
+  dE = -\frac{h \nu_{ul} B_{lu} n_l}{c} I_\nu~ \varphi(\nu)
+\end{equation}
+
+Stimulated Emission:
+\begin{equation}
+  dE = \frac{h \nu_{ul} B_{ul} n_u}{c} I_{\nu}~ \varphi(\nu)
+\end{equation}
+
+From \eqref{eqn:radtrans}, $\kappa_\nu$ should be the leading factor in front of $I_\nu$.
+This is how \citet{rohlfs}  eqn 12.17 is derived.
+\begin{equation}
+  \label{eqn:kappa}
+  \kappa_\nu = \frac{h \nu_{ul} B_{ul} n_u}{c} \varphi(\nu)
+              -\frac{h \nu_{ul} B_{lu} n_l}{c} \varphi(\nu)
+\end{equation}
+
+The A and B values are related by
+\begin{equation}
+  \label{eqn:AB}
+  A_{ul} = \frac{8\pi h \nu_{ul}^3}{c^3} B_{ul}
+\end{equation}
+and \begin{equation} B_{ul} = \frac{g_l}{g_u} B_{lu} \end{equation}
+
+In LTE, Kirchoff's law is equal to the blackbody function \citep[][eqns 1.14, 12.8, 12.9]{rohlfs}
+\begin{equation}
+  \frac{\epsilon_\nu}{\kappa_\nu} = \frac{2 h \nu^3}{c^2} \left(\frac{g_u n_l}{g_l n_u} - 1 \right)^{-1}
+                                  = \frac{2 h \nu^3}{c^2} \left[\exp\left(\frac{h\nu}{k_B T}\right) - 1\right]^{-1}
+\end{equation}
+\begin{equation}
+  \label{eqn:distrib}
+  \frac{n_u}{n_l} = \frac{g_u}{g_l} \exp\left(\frac{-h \nu_{ul} }{k_B T_{ex}}\right) 
+\end{equation}
+
+Plugging equations \eqref{eqn:distrib} and \eqref{eqn:AB} into \eqref{eqn:kappa} we get \citet{rohlfs} equation 12.17:
+\begin{equation}
+  \kappa_\nu = \frac{c^2}{8 \pi \nu_{ul}^2} \frac{g_u}{g_l} n_l A_{ul} \left[1-\exp\left(\frac{-h \nu_{ul} }{k_B T_{ex}}\right) \right] \varphi(\nu)
+\end{equation}
+
+However, that is not the most useful form of the equation, since we observe
+\emph{emission}, which is the transition from the upper to lower state;
+equation 12.17 makes sense theoretically because it is defining an absorption
+coefficient.  This form is more useful (where we have replaced $n_l$ with $n_u$ using \eqref{eqn:distrib}):
+\begin{equation}
+  \kappa_\nu = \frac{c^2}{8 \pi \nu_{ul}^2} n_u A_{ul} \left[\exp\left(\frac{h \nu_{ul} }{k_B T_{ex}}\right) - 1 \right] \varphi(\nu)
+\end{equation}
+
+We then return to the optical depth \eqref{eqn:optdepth} and integrate over $\nu$:
+\begin{equation}
+  \int \tau_\nu \dnu = \frac{c^2}{8 \pi \nu_{ul}^2} A_{ul} \left[\exp\left(\frac{h \nu_{ul} }{k_B T_{ex}}\right) - 1 \right] \int \varphi(\nu) \dnu \int n_u \ds 
+\end{equation}
+\citep[$\int\varphi(\nu) \dnu \equiv 1$][eqn 12.1]{rohlfs}
+
+Convert to column:
+\begin{equation}
+  \int n \ds = N
+\end{equation}
+
+Therefore the column of molecules in the upper state is
+\begin{equation}
+  N_u = \frac{8\pi \nu_{ul}^2}{c^2 A_{ul}} \left[\exp\left(\frac{h \nu_{ul} }{k_B T_{ex}}\right) - 1 \right]^{-1} \int \tau_\nu \dnu
+\end{equation}
+
+Convert from column to an observable, $T_B$ (or $T_B^*$ - that is up to the observer to fill in with correction factors etc, particularly
+because CO tends to be extended, and other dipole molecules might as well).  Start with \citet{rohlfs} equation 15.29, which is the
+conversion of brightness temperature to the full blackbody form times the thin-cloud component of the radiative transfer equation:
+\begin{equation} 
+  \label{eqn:tbrightnesscmb}
+  T_B(\nu) = \frac{h \nu}{k_B} \left(\left[e^{h \nu / k_B T_{ex}} - 1\right]^{-1} - \left[e^{h \nu / k_B T_{CMB}} - 1\right]^{-1} \right) (1-e^{-\tau_\nu})
+\end{equation}
+Rearrange to solve for $\tau_\nu$:
+\begin{equation}
+  \tau_\nu = -\ln\left[ 1 - \frac{k_B T_B}{h \nu} \left(\left[e^{h \nu / k_B T_{ex}} - 1\right]^{-1} - \left[e^{h \nu / k_B T_{CMB}} - 1\right]^{-1} \right)^{-1} \right]
+%  \int \tau_\nu \dnu = \int -\ln\left(1-\frac{T_B(\nu)}{T_{ex}}\right) \dnu 
+%                     \approx_{\tau << 1} \int \frac{T_B(\nu)}{T_{ex}} \dnu 
+%                     = \frac{\nu_{ul}}{c} \int \frac{T_B(v)}{T_{ex}} \dv
+\end{equation}
+
+The population of the upper state in terms of the observable $T_B$:
+\begin{equation}
+  N_u = \frac{8\pi \nu_{ul}^2}{c^2 A_{ul}} \left[\exp\left(\frac{h \nu_{ul} }{k_B T_{ex}}\right) - 1 \right]^{-1} \int -\ln\left[ 1 - \frac{k_B T_B}{h \nu_{ul}} \left(\left[e^{h \nu_{ul} / k_B T_{ex}} - 1\right]^{-1} - \left[e^{h \nu_{ul} / k_B T_{CMB}} - 1\right]^{-1} \right)^{-1} \right] \dnu
+\end{equation}
+
+Convert to \kms\ with $\dnu = \frac{\nu}{c} \dv$
+\begin{equation}
+  \label{eqn:nuppernoapprox}
+  N_u = \frac{8\pi \nu_{ul}^3}{c^3 A_{ul}} \left[\exp\left(\frac{h \nu_{ul} }{k_B T_{ex}}\right) - 1 \right]^{-1} \int -\ln\left[ 1 - \frac{k_B T_B}{h \nu_{ul}} \left(\left[e^{h \nu_{ul} / k_B T_{ex}} - 1\right]^{-1} - \left[e^{h \nu_{ul} / k_B T_{CMB}} - 1\right]^{-1} \right)^{-1} \right] \dv
+\end{equation}
+
+Use the first term of the Taylor expansion: $\ln(1+x)\approx x-\frac{x^2}{2}+\frac{x^3}{3}\ldots$
+\begin{equation}
+  N_u = \frac{8\pi \nu_{ul}^3}{c^3 A_{ul}} \left[\exp\left(\frac{h \nu_{ul} }{k_B T_{ex}}\right) - 1 \right]^{-1} \int \frac{k_B T_B}{h \nu_{ul}} \left(\left[e^{h \nu_{ul} / k_B T_{ex}} - 1\right]^{-1} - \left[e^{h \nu_{ul} / k_B T_{CMB}} - 1\right]^{-1} \right)^{-1} \dv
+\end{equation}
+
+This can be simplified:
+\begin{equation}
+  \frac{ \left[e^{h \nu_{ul} /k_B T_{ex}} - 1 \right]^{-1} }{\left[e^{h \nu_{ul} / k_B T_{ex}} - 1\right]^{-1} - \left[e^{h \nu_{ul} / k_B T_{CMB}} - 1\right]^{-1} } = \frac{e^{h\nu_{ul}/k_B T_{CMB}} - 1}{e^{h\nu_{ul}/k_B T_{CMB}} - e^{h\nu_{ul}/k_B T_{ex}}}
+\end{equation}
+
+Which yields:
+\begin{equation}
+  \label{eqn:nupper}
+  N_u = \frac{8\pi \nu_{ul}^2 k_B}{c^3 A_{ul} h }  \frac{e^{h\nu_{ul}/k_B T_{CMB}} - 1}{e^{h\nu_{ul}/k_B T_{CMB}} - e^{h\nu_{ul}/k_B T_{ex}}} \int T_B  \dv
+\end{equation}
+
+This can be converted to use $\mu$ instead of $A_{ul}$ using \citet{rohlfs} equation 15.20 $A_{ul}=\frac{64\pi^4}{3 h c^3}\nu^3 \mu_{ul}^2$:
+\begin{equation}
+  \label{eqn:nuppermu}
+  n_u = \frac{3  }{8 \pi^3 \mu_e^2 } \frac{k_B}{\nu_{ul}} \frac{2 J_l + 3}{J_l+1} 
+    \frac{e^{h\nu_{ul}/k_B T_{cmb}} - 1}{e^{h\nu_{ul}/k_B T_{cmb}} - e^{h\nu_{ul}/k_B T_{ex}}} \int T_B  \dv
+\end{equation}
+
+or in terms of $J_u$:
+\begin{equation}
+  \label{eqn:nuppermuju}
+  N_u = \frac{3  }{8 \pi^3 \mu_e^2 } \frac{k_B}{\nu_{ul}} \frac{2 J_u + 1}{J_u} 
+    \frac{e^{h\nu_{ul}/k_B T_{cmb}} - 1}{e^{h\nu_{ul}/k_B T_{CMB}} - e^{h\nu_{ul}/k_B T_{ex}}} \int T_B  \dv
+\end{equation}
+
+Stepping back, \eqref{eqn:tbrightnesscmb} can be simplified if one
+assumes that the CMB contribution to the brightness temperature is negligible.
+This assumption is very safe for high-lying transitions and high excitation
+temperatures, only exceeding 5\% for $T_{ex} < 10$,6, and 4 K for the CO 1-0,
+2-1, and 3-2 transitions (see figure \ref{fig:cmbcorrection}).
+\begin{equation} 
+  \label{eqn:tbrightnesscmb2}
+  T_B(\nu) = \frac{h \nu}{k_B} \left[e^{h \nu / k_B T_{ex}} - 1\right]^{-1}  (1-e^{-\tau_\nu})
+\end{equation}
+Which can be solved for $\tau_\nu$ again:
+\begin{equation}
+  \tau_\nu = -\ln\left( 1 - \frac{k_B T_B}{h \nu} \left[e^{h \nu / k_B T_{ex}} - 1\right] \right) \approx \frac{k_B T_B}{h \nu} \left[e^{h \nu / k_B T_{ex}} - 1\right]
+\end{equation}
+This equation can be used following the above steps to derive a result in the form of \eqref{eqn:nupper}:
+\begin{equation}
+  \label{eqn:nupperapprox}
+  N_u \approx \frac{8\pi \nu_{ul}^2 }{c^2 A_{ul} }  \frac{k_B}{h \nu_{ul}} \int T_B \dv
+  = \frac{8\pi \nu_{ul} k_B}{c^3 A_{ul} h }  \int T_B \dv
+  = \frac{3  k_B }{8 \pi^3 \mu_{ul}^2 \nu_{ul}^2 } \frac{2 J_l + 3}{J_l+1}   \int T_B \dv
+\end{equation}
+
+
+Note that \eqref{eqn:nuppernoapprox} is the full solution assuming LTE with \emph{no} approximations.
+
+
+%\begin{equation}
+%  \label{eqn:nupper}
+%  N_u = \frac{8\pi \nu_{ul}^3}{c^3 A_{ul} T_{ex}} 
+%  \left[\exp\left(\frac{h \nu_{ul} }{k_B T_{ex}}\right) - 1 \right]^{-1} \int T_B(v) \dv
+%\end{equation}
+%
+%\begin{equation}
+%  \label{eqn:nuppermu}
+%  N_u = \frac{3 h }{8 \pi^3 \mu_e^2 } \frac{2 J_l + 3}{J_l+1}
+%  \left[\exp\left(\frac{h \nu_{ul} }{k_B T_{ex}}\right) - 1 \right]^{-1} \int \frac{T_B(v)}{T_{ex}} \dv
+%\end{equation}
+
+
+\section{Partition Function}
+We are interested in the total number (or column) of molecules, not that in a single state:
+\begin{equation}
+  n_{tot} = \sum_{J=0}^\infty n_J
+\end{equation}
+
+The Boltzmann distribution defines the distribution of molecular excitation states in LTE:
+\begin{align}
+  \frac{n_u}{n_l} &= \frac{g_u}{g_l} \exp\left(\frac{-E_{ul}}{k_B T_{ex}}\right) \label{eqn:Boltzmann}\\
+  E_{ul} &= h B_e J_u(J_u+1) \label{eqn:eul} \\
+  g_J &= 2J+1 \label{eqn:gj} 
+\end{align}
+
+By approximating the sum over all states as an integral, we can solve for the number in the 
+ground state, which can in turn be used to solve for the number in any state:
+\begin{align}
+  n_{tot} & =        \sum_{J=0}^\infty n_J = n_0 \sum_{J=0}^\infty  (2J+1) \exp\left(-\frac{J(J+1) B_e h}{k_B T_{ex}}\right) \label{eqn:approxpartition}\\
+          & \approx  \int_0^\infty  n_0  (2J+1) \exp\left(-\frac{J(J+1) B_e h}{k_B T_{ex}}\right) dJ \label{eqn:approxpartition2}\\
+          & =        \left[ n_0 \frac{k_B T_{ex}}{B_e h} \exp\left(-\frac{J(J+1) B_e h}{k_B T_{ex}}\right) \right]^\infty_0 \label{eqn:approxpartition3}\\
+          & =        n_0 \frac{k_B T_{ex}}{B_e h} \label{eqn:approxpartition4}
+\end{align}
+Rearrange to acquire 
+\begin{equation}
+  n_0 = n_{tot} \frac{B_e h}{k_B T_{ex}} 
+\end{equation}
+
+Plug back in to the Boltzmann distribution \eqref{eqn:Boltzmann}
+\begin{equation}
+  n_J = n_{tot} \frac{B_e h}{k_B T_{ex}} (2J+1) \exp\left(-\frac{J(J+1) B_e h}{k_B T_{ex}}\right)
+\end{equation}
+and finally rearrange
+\begin{equation}
+  \label{eqn:partition_final}
+  n_{tot} = n_{J} \frac{k_B T_{ex}}{(2J+1)B_e h}  \exp\left(\frac{J(J+1) B_e h}{k_B T_{ex}}\right)
+\end{equation}
+Note that $n$ can be converted to $N$ by multiplying both sides by the path length.  
+
+The numerical solution is acquired from plugging \eqref{eqn:Boltzmann} into \eqref{eqn:approxpartition}
+\begin{equation}
+  n_J = \left[ \sum_{j=0}^{j=j_{max}} (2j+1) \exp\left(-\frac{j(j+1) B_e h}{k_B T_{ex}}\right) \right] (2J+1) \exp\left(-\frac{J(J+1) B_e h}{k_B T_{ex}}\right)
+\end{equation}
+
+%Equation \eqref{eqn:nupper} can finally be plugged in to \eqref{eqn:partition_final} to
+%acquire the column of the molecule as a function of the observed line temperature:
+%\begin{equation}
+%  \label{eqn:column}
+%  N_{tot} = \frac{8\pi \nu_{ul}^3}{c^3 A_{ul}} \frac{k_B}{(2J+1)B_e h}  
+%  \exp\left(\frac{J(J+1) B_e h}{k_B T_{ex}}\right)
+%  \left[\exp\left(\frac{h \nu_{ul} }{k_B T_{ex}}\right) - 1 \right]^{-1} \int T_B(v) \dv
+%\end{equation}
+
+\begin{figure}
+  \plotone{columnconversion_vs_tex}
+  \caption{Using \eqref{eqn:nupper} (i.e. assuming $\tau_\nu << 1$) and a numerical treatment of 
+  the partition function out to $J=200$, the conversion from $T_B(^{12}CO)$ to N(H$_2$) vs $T_{ex}$.  
+  We assume X$_{CO} = 10^{-4}$ and LTE.}
+\end{figure}
+
+\begin{figure}
+  \plotone{columnconversion_approximation}
+  \caption{Comparison of the approximate to the exact (numerical) solutions of
+  the partition function.  The approximate partition function is calculated
+  using the approximation in \eqref{eqn:approxpartition}.  The exact
+  (numerical) solution sums the population in all states out to $J=200$.}
+\end{figure}
+
+\begin{figure}
+  \label{fig:cmbcorrection}
+  \plotone{CMB_correction_factor}
+  \caption{{\it Top:} Comparison of a full treatment of the optical depth
+  including the contribution of the CMB as in \eqref{eqn:nuppernoapprox}
+  with an approximation that ignores the CMB, \eqref{eqn:nupperapprox}.
+  {\it Bottom:} Equation \eqref{eqn:nuppernoapprox}/Equation
+  \eqref{eqn:nupperapprox}, which is the Correction Factor that needs to be
+  applied to the approximate version to recover the full version.  Note that
+  the correction factor is $<5\%$ for most reasonable excitation temperatures.  
+  }
+\end{figure}
+
+
+
+%\section{Comparison to literature equations}
+%\citet{arce2010} cites \citet{arce2001} which cites \citet{bourke1997} which cites \citet{garden1991} which
+%starts from \citet{lang1980} equation 2-69...
+%
+%\citet{garden1991} appendix:
+%\begin{equation}
+%  N_{tot} = \frac{3k_B}{8\pi^3 B_e \mu^2} \frac{1}{J+1} \exp(\frac{h B_e J (J+1)}{k_B T_{ex}}) \frac{T_{ex} + hB_e / 3k_B}{1-\exp(-h nu/k_B T_{ex})} \int \tau_v dv
+%\end{equation}
+%where they have approximated the partition function $U=n_{tot}/n_0$ as
+%\begin{eqnarray}
+% U & =       & \sum_{J=0}^\infty g_J \exp\left(-\frac{h B_e J (J+1)}{k_B T_{ex}} \right) \\
+%   & \approx & \frac{k_B}{h B_e} \left( \frac{T_{ex} + h B_e}{3k_B} \right) \\
+%   & = & \frac{T_{ex}}{3 h B_e} + \frac{1}{3} \\
+%\end{eqnarray}
+
+\bibliographystyle{aasjournal}
+\bibliography{column_derivation}
+\end{document}
